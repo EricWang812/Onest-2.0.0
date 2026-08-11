@@ -1,0 +1,78 @@
+appId: com.onest.app
+productName: Onest
+copyright: Copyright © 2026
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/shell/**/*
+  # shell/main.ts imports paths.ts (ipcEndpoint/ipcEndpointDev) across the
+  # daemon/shell boundary — a real bug this bundling only reproduces because
+  # dist/daemon isn't otherwise part of the packaged app (it ships separately
+  # as extraResources/daemon.bundle.js, at a different path entirely). Found
+  # via a real elevated install crashing with ERR_MODULE_NOT_FOUND — see
+  # DECISIONS.md.
+  - dist/daemon/paths.js
+  - package.json
+  - node_modules/**/*
+
+extraResources:
+  # The daemon/watchdog/relay are self-contained single-file bundles (all
+  # node_modules deps inlined by esbuild — see build/build-node-bundles.mjs),
+  # not raw tsc output, so the installer doesn't need to ship a node_modules
+  # tree alongside them. They run under a system Node install (see
+  # build/installer.nsh / build/onest.iss), not under Electron's own
+  # Node, so they keep working even if the Electron shell is uninstalled or
+  # updated separately.
+  - from: dist-bundled/daemon.bundle.js
+    to: daemon.bundle.js
+  - from: dist-bundled/watchdog.bundle.js
+    to: watchdog.bundle.js
+  - from: dist-bundled/relay.bundle.js
+    to: relay.bundle.js
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  artifactName: Onest-Setup-${version}.${ext}
+  # The daemon's IPC pipe (\\.\pipe\onest — desktop/src/daemon/paths.ts)
+  # is created by the daemon Windows Service running as LocalSystem (via
+  # NSSM). A named pipe created by a SYSTEM-level process gets a default
+  # security descriptor that only grants connect access to SYSTEM/
+  # Administrators — a normal, non-elevated Onest.exe is denied at the
+  # OS level before any application-level retry/timing logic even runs, so
+  # "daemon disconnected" was unfixable from the shell side alone. Node's
+  # `net` module exposes no API to set a custom (more permissive) ACL on the
+  # pipe when the daemon creates it, so the only viable fix is making the
+  # shell itself always run elevated. `requireAdministrator` embeds that requirement
+  # into Onest.exe's own Windows manifest, so Windows shows a UAC prompt
+  # and runs it elevated on every launch — double-click, Start Menu, tray,
+  # or the Settings "Launch at login" auto-start entry (see the login-item
+  # note in shell/main.ts). Confirmed against real testing on the target
+  # machine: launching as Administrator connects; launching normally doesn't.
+  requestedExecutionLevel: requireAdministrator
+
+nsis:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  # Elevation is required: the installer registers two LocalSystem Windows
+  # Services (daemon + watchdog) via sc.exe. See build/installer.nsh.
+  include: build/installer.nsh
+  deleteAppDataOnUninstall: false
+
+mac:
+  target:
+    - target: pkg
+      arch: [universal]
+  artifactName: Onest-${version}.${ext}
+
+# launchd (root daemon) registration happens via the pkg postinstall script —
+# see build/pkg-scripts/postinstall and build/com.onest.daemon.plist.
+pkg:
+  scripts: build/pkg-scripts
+
+publish: null

@@ -1,0 +1,25 @@
+{
+  "name": "@focus-lock/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared protocol types, blocklist data, and crypto helpers used by relay + desktop + (future) mobile clients",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "spake2": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

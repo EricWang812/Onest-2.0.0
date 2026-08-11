@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>Onest</title>
+  <link rel="stylesheet" href="../renderer/styles.css" />
+  <style>
+    body { background: var(--bg-grad); overflow: hidden; }
+    .popup-card {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px 24px;
+      gap: 8px;
+      -webkit-app-region: drag;
+    }
+    .popup-title { font-size: 15px; font-weight: 600; }
+    .popup-body { font-size: 13px; color: var(--text-dim); }
+    .popup-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; -webkit-app-region: no-drag; }
+    .popup-timer { font-size: 13px; font-weight: 600; color: var(--accent); }
+    .dismiss-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./popup-bundle.js"></script>
+</body>
+</html>

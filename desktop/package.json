@@ -1,0 +1,46 @@
+{
+  "name": "@focus-lock/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Desktop app: Electron+React shell (UI, popups, tray) plus a privileged Node daemon and watchdog that own all enforcement.",
+  "author": "Onest",
+  "type": "module",
+  "main": "dist/shell/main.js",
+  "scripts": {
+    "build:daemon": "tsc -p tsconfig.daemon.json",
+    "build:watchdog": "tsc -p tsconfig.daemon.json",
+    "build:shell": "tsc -p tsconfig.shell.json",
+    "build:renderer": "node build/build-renderer.mjs",
+    "verify:preload": "node build/verify-preload-cjs.mjs",
+    "build": "npm run build:daemon && npm run build:shell && npm run build:renderer && npm run verify:preload",
+    "patch:exe": "node build/patch-exe-manifest.mjs",
+    "dev:daemon": "npm run build:daemon && node dist/daemon/index.js",
+    "dev": "npm run build && electron .",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "test": "vitest run",
+    "lint": "tsc --noEmit -p tsconfig.daemon.json && tsc --noEmit -p tsconfig.shell.json"
+  },
+  "dependencies": {
+    "@focus-lock/shared": "*",
+    "node-notifier": "^10.0.1",
+    "qrcode": "^1.5.4",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/node-notifier": "^8.0.5",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/ws": "^8.5.13",
+    "electron": "33.4.11",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.0",
+    "rcedit": "^5.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

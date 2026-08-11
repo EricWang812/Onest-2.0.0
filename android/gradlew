@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Standard Gradle wrapper launcher for Unix. Requires gradle-wrapper.jar,
+# which is a binary this build environment cannot author — see SETUP-MOBILE.md.
+# Regenerate it with `gradle wrapper` once Gradle/Android Studio is available,
+# or simply open this project in Android Studio, which does it automatically.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+exec java -cp "$DIR/gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain "$@"

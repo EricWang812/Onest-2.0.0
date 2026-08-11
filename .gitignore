@@ -1,0 +1,39 @@
+node_modules/
+dist/
+build/
+out/
+*.log
+.DS_Store
+Thumbs.db
+
+# Electron
+desktop/ui/dist/
+desktop/ui/out/
+desktop/release/
+desktop/*.exe
+desktop/*.pkg
+desktop/*.dmg
+
+# Android
+android/**/build/
+android/.gradle/
+android/local.properties
+android/*.apk
+android/*.jks
+android/*.keystore
+
+# iOS
+ios/**/build/
+ios/**/DerivedData/
+ios/**/*.xcuserstate
+ios/**/xcuserdata/
+
+# Data / secrets
+*.sqlite
+*.sqlite3
+relay/data/
+desktop/data/
+.env
+.env.local
+*.pem
+*.key
