@@ -18,9 +18,9 @@ A cross-device focus system: a countdown timer that blocks social media and game
 
 ## Install
 
-### Windows: single-file installer (fastest path on this machine)
+### Windows: single-file installer (fastest path)
 
-`desktop/release/Onest-Setup.exe` (built via Inno Setup — see `DECISIONS.md` for why not the NSIS path `dist:win` normally produces) installs everything needed to run Onest entirely on one Windows machine in one step: the UI, plus three Windows Services — `OnestRelay`, `OnestDaemon`, `OnestWatchdog` — pre-wired to talk to each other on `localhost` so pairing and sessions work with no manual relay setup. The app itself (`Onest.exe`) requires Administrator on every launch, not just install — see `DECISIONS.md` Follow-up #10 for why (its daemon connection depends on it).
+Download the latest installer from **[GitHub Releases](https://github.com/EricWang812/Onest-2.0.0/releases/latest)** (`Onest-Setup.exe`, built via Inno Setup — see `DECISIONS.md` for why not the NSIS path `dist:win` normally produces). It installs everything needed to run Onest entirely on one Windows machine in one step: the UI, plus three Windows Services — `OnestRelay`, `OnestDaemon`, `OnestWatchdog` — pre-wired to talk to each other on `localhost` so pairing and sessions work with no manual relay setup. The app itself (`Onest.exe`) requires Administrator on every launch, not just install — see `DECISIONS.md` Follow-up #10 for why (its daemon connection depends on it).
 
 - **Requires Node.js 22+ already installed** (the installer checks for it via `where node` and refuses to continue if missing — get it from [nodejs.org](https://nodejs.org) first).
 - **Requires Administrator** (registers Windows Services) — you'll get a UAC prompt.
